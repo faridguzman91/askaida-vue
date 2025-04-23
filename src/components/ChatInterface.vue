@@ -52,30 +52,24 @@ async function handleSendMessage() {
   const trimmedInput = userInput.value.trim();
   if (!trimmedInput || isProcessing.value) return;
   
-  // Clear input field
   userInput.value = '';
   
-  // Reset textarea height
   if (inputField.value) {
     inputField.value.style.height = 'auto';
   }
   
-  // Send message
   await sendMessage(trimmedInput);
   
-  // Scroll to bottom after UI update
   await nextTick();
   scrollToBottom();
 }
 
-// Keep up with amount of response against the container height
 function scrollToBottom() {
   if (messagesContainer.value) {
     messagesContainer.value.scrollTop = messagesContainer.value.scrollHeight;
   }
 }
 
-// Watch for user input changes to adjust textarea height
 watch(userInput, () => {
   if (inputField.value) {
     inputField.value.style.height = 'auto';
@@ -83,12 +77,10 @@ watch(userInput, () => {
   }
 });
 
-// Watch for messages changes to scroll to bottom
 watch(() => messages.value.length, () => {
   nextTick(() => scrollToBottom());
 });
 
-// Mount input field
 onMounted(() => {
   if (inputField.value) {
     inputField.value.focus();
